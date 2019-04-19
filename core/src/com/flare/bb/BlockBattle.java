@@ -23,7 +23,7 @@ public class BlockBattle extends ApplicationAdapter {
 		sprite = new Sprite(img, 0,0, 1920, 1080);
 		sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		font = new BitmapFont();
-		font.setColor(Color.GOLD);
+		font.setColor(Color.BLUE);
 	}
 
 	@Override
@@ -32,9 +32,9 @@ public class BlockBattle extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
-		{ //FUNCTIONLESS BRACKET. They're here for organizational purposes.
+		{ //FUNCTIONLESS BRACKETS. They're here for organizational purposes.
 			sprite.draw(batch);
-			font.draw(batch, "Hello World", 200, 200);
+			font.draw(batch, "BlockNite", Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		}
 		batch.end();
 	}
