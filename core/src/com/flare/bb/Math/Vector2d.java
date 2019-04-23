@@ -10,7 +10,7 @@ public class Vector2d {
     }
 
     public Vector2d(Vector2d p){
-        new Vector2d(p.getX(), p.getY());
+        this(p.getX(), p.getY());
     }
 
     public int getX() {
