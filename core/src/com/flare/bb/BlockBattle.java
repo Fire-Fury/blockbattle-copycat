@@ -15,7 +15,18 @@ public class BlockBattle extends ApplicationAdapter {
 	Texture img;
 	private BitmapFont font;
 	private Sprite sprite;
-	
+
+	private static final Color C_STICK = Color.CYAN;
+	private static final Color C_L1 = Color.BLUE;
+	private static final Color C_L2 = Color.ORANGE;
+	private static final Color C_S1 = Color.RED;
+	private static final Color C_S2 = Color.GREEN;
+	private static final Color C_SQUARE = Color.YELLOW;
+	private static final Color C_PYRAMID = Color.PURPLE;
+
+
+
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -33,8 +44,7 @@ public class BlockBattle extends ApplicationAdapter {
 
 		batch.begin();
 		{ //FUNCTIONLESS BRACKETS. They're here for organizational purposes.
-			sprite.draw(batch);
-			font.draw(batch, "BlockNite", Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+
 		}
 		batch.end();
 	}

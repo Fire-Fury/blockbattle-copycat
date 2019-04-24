@@ -106,6 +106,72 @@ public class Piece {
     }
 
 
+    // String constants for the standard 7 tetris pieces
+    public static final String STICK_STR	= "0 0	0 1	 0 2  0 3";
+    public static final String L1_STR		= "0 0	0 1	 0 2  1 0";
+    public static final String L2_STR		= "0 0	1 0 1 1	 1 2";
+    public static final String S1_STR		= "0 0	1 0	 1 1  2 1";
+    public static final String S2_STR		= "0 1	1 1  1 0  2 0";
+    public static final String SQUARE_STR	= "0 0  0 1  1 0  1 1";
+    public static final String PYRAMID_STR	= "0 0  1 0  1 1  2 0";
+
+    // Indexes for the standard 7 pieces in the pieces array
+    public static final int STICK = 0;
+    public static final int L1	  = 1;
+    public static final int L2	  = 2;
+    public static final int S1	  = 3;
+    public static final int S2	  = 4;
+    public static final int SQUARE	= 5;
+    public static final int PYRAMID = 6;
+
+    public static Piece[] getPieces() {
+        // lazy evaluation -- create static array if needed
+        if (Piece.pieces==null) {
+            // use makeFastRotations() to compute all the rotations for each piece
+            Piece.pieces = new Piece[] {
+                    makeFastRotations(new Piece(STICK_STR)),
+                    makeFastRotations(new Piece(L1_STR)),
+                    makeFastRotations(new Piece(L2_STR)),
+                    makeFastRotations(new Piece(S1_STR)),
+                    makeFastRotations(new Piece(S2_STR)),
+                    makeFastRotations(new Piece(SQUARE_STR)),
+                    makeFastRotations(new Piece(PYRAMID_STR)),
+            };
+        }
+
+
+        return Piece.pieces;
+    }
+
+    /**
+     Given the "first" root rotation of a piece, computes all
+     the other rotations and links them all together
+     in a circular list. The list loops back to the root as soon
+     as possible. Returns the root piece. fastRotation() relies on the
+     pointer structure setup here.
+     */
+	/*
+	 Implementation: uses computeNextRotation()
+	 and Piece.equals() to detect when the rotations have gotten us back
+	 to the first piece.
+	*/
+    private static Piece makeFastRotations(Piece root) {
+        Piece curr = root;
+        Piece next;
+        while (true) {
+            next = curr.computeNextRotation();
+            if (next.equals(root)) {
+                curr.next = root;
+                break;
+            } else {
+                curr.next = next;
+                curr = next;
+            }
+        }
+        return root; // YOUR CODE HERE
+    }
+
+
 
     /**
      * Alternate constructor, takes a String with the x,y body points

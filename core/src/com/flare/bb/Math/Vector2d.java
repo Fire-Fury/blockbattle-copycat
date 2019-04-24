@@ -40,8 +40,6 @@ public class Vector2d {
     }
 
     public String toString(){
-
         return "(" + x + ", " + y + ")";
-
     }
 }
