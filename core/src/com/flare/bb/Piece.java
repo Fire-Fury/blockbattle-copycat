@@ -94,6 +94,31 @@ public class Piece {
         }
         return arr;
     }
+    /**
+     Returns true if two pieces are the same --
+     their bodies contain the same points.
+     Interestingly, this is not the same as having exactly the
+     same body arrays, since the points may not be
+     in the same order in the bodies. Used internally to detect
+     if two rotations are effectively the same.
+     */
+    public boolean equals(Object obj) {
+        // standard equals() technique 1
+        if (obj == this) return true;
+
+        // standard equals() technique 2
+        // (null will be false)
+        if (!(obj instanceof Piece)) return false;
+        Piece other = (Piece)obj;
+
+        if (width != other.getWidth()) return false;
+        if (height != other.getHeight()) return false;
+        for (int i = 0; i < skirt.length; i++) {
+            if (skirt[i] != other.getSkirt()[i]) return false;
+        }
+
+        return true;
+    }
 
     /**
      Returns a pre-computed piece that is 90 degrees counter-clockwise
@@ -109,7 +134,7 @@ public class Piece {
     // String constants for the standard 7 tetris pieces
     public static final String STICK_STR	= "0 0	0 1	 0 2  0 3";
     public static final String L1_STR		= "0 0	0 1	 0 2  1 0";
-    public static final String L2_STR		= "0 0	1 0 1 1	 1 2";
+    public static final String L2_STR		= "0 0	1 0  1 1  1 2";
     public static final String S1_STR		= "0 0	1 0	 1 1  2 1";
     public static final String S2_STR		= "0 1	1 1  1 0  2 0";
     public static final String SQUARE_STR	= "0 0  0 1  1 0  1 1";
@@ -128,6 +153,7 @@ public class Piece {
         // lazy evaluation -- create static array if needed
         if (Piece.pieces==null) {
             // use makeFastRotations() to compute all the rotations for each piece
+
             Piece.pieces = new Piece[] {
                     makeFastRotations(new Piece(STICK_STR)),
                     makeFastRotations(new Piece(L1_STR)),
@@ -138,7 +164,6 @@ public class Piece {
                     makeFastRotations(new Piece(PYRAMID_STR)),
             };
         }
-
 
         return Piece.pieces;
     }
@@ -168,7 +193,7 @@ public class Piece {
                 curr = next;
             }
         }
-        return root; // YOUR CODE HERE
+        return root;
     }
 
 

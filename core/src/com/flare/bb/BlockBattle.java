@@ -9,10 +9,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class BlockBattle extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
+	ShapeRenderer sr;
 	private BitmapFont font;
 	private Sprite sprite;
 
@@ -24,17 +26,23 @@ public class BlockBattle extends ApplicationAdapter {
 	private static final Color C_SQUARE = Color.YELLOW;
 	private static final Color C_PYRAMID = Color.PURPLE;
 
-
+	private static Piece[] pieces;
+	private static final int BLOCK_SIZE = 20;
+	private static Piece stick = pieces[Piece.STICK];
 
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		sr = new ShapeRenderer()
 		img = new Texture("android/assets/colors.jpg");
 		sprite = new Sprite(img, 0,0, 1920, 1080);
 		sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
 		font = new BitmapFont();
 		font.setColor(Color.BLUE);
+
+		pieces = Piece.getPieces();
 	}
 
 	@Override
@@ -44,7 +52,9 @@ public class BlockBattle extends ApplicationAdapter {
 
 		batch.begin();
 		{ //FUNCTIONLESS BRACKETS. They're here for organizational purposes.
-
+			sr.begin();
+			sr.setColor(C_STICK);
+			sr.end();
 		}
 		batch.end();
 	}
