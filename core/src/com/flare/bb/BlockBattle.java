@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
 
 public class BlockBattle extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -18,23 +20,22 @@ public class BlockBattle extends ApplicationAdapter {
 	private BitmapFont font;
 	private Sprite sprite;
 
-	private static final Color C_STICK = Color.CYAN;
-	private static final Color C_L1 = Color.BLUE;
-	private static final Color C_L2 = Color.ORANGE;
-	private static final Color C_S1 = Color.RED;
-	private static final Color C_S2 = Color.GREEN;
-	private static final Color C_SQUARE = Color.YELLOW;
-	private static final Color C_PYRAMID = Color.PURPLE;
+	private static final Color[] PIECE_COLORS = {Color.CYAN, Color.BLUE, Color.ORANGE, Color.RED, Color.GREEN, Color.YELLOW, Color.PURPLE};
+	//The color at an index corresponds to the piece in the piece array. ie PIECE_COLORS[Piece.STICK] will by Cyan
 
 	private static Piece[] pieces;
 	private static final int BLOCK_SIZE = 20;
-	private static Piece stick = pieces[Piece.STICK];
+	private static Piece piece;
+	private static int initx = 200;
+	private static int inity = 200;
+	private static boolean rot = true;
+	private long startTime;
 
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		sr = new ShapeRenderer()
+		sr = new ShapeRenderer();
 		img = new Texture("android/assets/colors.jpg");
 		sprite = new Sprite(img, 0,0, 1920, 1080);
 		sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -43,6 +44,7 @@ public class BlockBattle extends ApplicationAdapter {
 		font.setColor(Color.BLUE);
 
 		pieces = Piece.getPieces();
+		startTime = TimeUtils.nanoTime();
 	}
 
 	@Override
@@ -52,11 +54,28 @@ public class BlockBattle extends ApplicationAdapter {
 
 		batch.begin();
 		{ //FUNCTIONLESS BRACKETS. They're here for organizational purposes.
-			sr.begin();
-			sr.setColor(C_STICK);
+			sr.begin(ShapeRenderer.ShapeType.Line);
+			for(int k = 0; k < pieces.length; k++) {
+				sr.setColor(PIECE_COLORS[k]);
+				piece = pieces[k];
+
+				for (int i = 0; i < piece.getBody().length; i++) {
+					sr.rect(initx + (piece.getBody()[i].getX() * BLOCK_SIZE), inity + (piece.getBody()[i].getY() * BLOCK_SIZE) + (k*BLOCK_SIZE*4), BLOCK_SIZE, BLOCK_SIZE);
+				}
+			}
 			sr.end();
 		}
 		batch.end();
+
+		if (TimeUtils.timeSinceNanos(startTime) > 750000000) {
+			// if time passed since the time you set startTime at is more than 1 second
+			for(int i = 0; i < pieces.length; i++){
+				pieces[i] = pieces[i].fastRotation();
+			}
+			//also you can set the new startTime
+			//so this block will execute every one second
+			startTime = TimeUtils.nanoTime();
+		}
 	}
 	
 	@Override
