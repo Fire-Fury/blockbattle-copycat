@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.Timer;
 
 public class BlockBattle extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -20,11 +19,11 @@ public class BlockBattle extends ApplicationAdapter {
 	private BitmapFont font;
 	private Sprite sprite;
 
-	private static final Color[] PIECE_COLORS = {Color.CYAN, Color.BLUE, Color.ORANGE, Color.RED, Color.GREEN, Color.YELLOW, Color.PURPLE};
+	private static final Color[] PIECE_COLORS = {Color.CYAN, Color.ORANGE, Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.PURPLE};
 	//The color at an index corresponds to the piece in the piece array. ie PIECE_COLORS[Piece.STICK] will by Cyan
 
 	private static Piece[] pieces;
-	private static final int BLOCK_SIZE = 20;
+	private static final int BLOCK_SIZE = 25;
 	private static Piece piece;
 	private static int initx = 200;
 	private static int inity = 200;
@@ -73,7 +72,7 @@ public class BlockBattle extends ApplicationAdapter {
 				pieces[i] = pieces[i].fastRotation();
 			}
 			//also you can set the new startTime
-			//so this block will execute every one second
+			//so this block will execute every N seconds as specified in the if statement
 			startTime = TimeUtils.nanoTime();
 		}
 	}
