@@ -13,11 +13,13 @@ public class Piece {
     private int width;
     private int height;
     private Piece next; //The next counterclockwise rotation
+    private int type;
 
     private static Piece[] pieces; //An array containing all the first rotations of the seven pieces.
 
-    public Piece(Vector2d[] points) {
+    public Piece(Vector2d[] points, int type) {
         body = points.clone();
+        this.type = type;
         int xmax = 0;
         int ymax = 0;
         for (Vector2d point:body) {
@@ -52,6 +54,13 @@ public class Piece {
     }
 
     /**
+     Returns the type of the piece measured in blocks.
+     */
+    public int getType(){
+        return type;
+    }
+
+    /**
      Returns a pointer to the piece's body. The caller
      should not modify this array.
      */
@@ -75,7 +84,7 @@ public class Piece {
     public Piece computeNextRotation(){
         Vector2d[] retArr = flipVertical(body, height);
         retArr = flipDiagonal(retArr);
-        Piece piece = new Piece(retArr);
+        Piece piece = new Piece(retArr, this.type);
         return piece;
     }
 
@@ -155,13 +164,13 @@ public class Piece {
             // use makeFastRotations() to compute all the rotations for each piece
 
             Piece.pieces = new Piece[] {
-                    makeFastRotations(new Piece(STICK_STR)),
-                    makeFastRotations(new Piece(L1_STR)),
-                    makeFastRotations(new Piece(L2_STR)),
-                    makeFastRotations(new Piece(S1_STR)),
-                    makeFastRotations(new Piece(S2_STR)),
-                    makeFastRotations(new Piece(SQUARE_STR)),
-                    makeFastRotations(new Piece(PYRAMID_STR)),
+                    makeFastRotations(new Piece(STICK_STR, STICK)),
+                    makeFastRotations(new Piece(L1_STR, L1)),
+                    makeFastRotations(new Piece(L2_STR, L2)),
+                    makeFastRotations(new Piece(S1_STR, S1)),
+                    makeFastRotations(new Piece(S2_STR, S2)),
+                    makeFastRotations(new Piece(SQUARE_STR, SQUARE)),
+                    makeFastRotations(new Piece(PYRAMID_STR, PYRAMID)),
             };
         }
 
@@ -203,8 +212,8 @@ public class Piece {
      * all separated by spaces, such as "0 0  1 0  2 0	1 1".
      * (provided)
      */
-    public Piece(String points) {
-        this(parsePoints(points));
+    public Piece(String points, int t) {
+        this(parsePoints(points), t);
     }
 
     /**

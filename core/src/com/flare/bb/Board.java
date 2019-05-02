@@ -1,4 +1,7 @@
 package com.flare.bb;
+
+import com.flare.bb.Math.Vector2d;
+
 /**
  * Tetris Board. -- essentially a 2-d grid of integers representing the location of blocks and their colors.
  * Supports tetris pieces and row clearing. Has an "undo" feature that
@@ -96,8 +99,6 @@ public class Board {
     /**
      * Given a piece and an x, returns the y value where the piece would come to
      * rest if it were dropped straight down at that x.
-     *
-     * <p>
      * Implementation: use the skirt and the col heights to compute this fast --
      * O(skirt length).
      */
@@ -113,6 +114,110 @@ public class Board {
         return ret; // YOUR CODE HERE
     }
 
+    /**
+     * Returns the height of the given column -- i.e. the y value of the highest
+     * block + 1. The height is 0 if the column contains no blocks.
+     */
+    public int getColumnHeight(int x) {
+        if (x < 0 | x >= width)
+            return -1;
+        return columnHeight[x];
+    }
+
+    private void updateColumnHeight(int start, int end) {
+        for (int x = start; x < end; x++) {
+            int currHeight = 0;
+            for (int y = height - 1; y >= 0; y--) {
+                if (grid[x][y] >= 0) {
+                    currHeight = y + 1;
+                    break;
+                }
+            }
+            columnHeight[x] = currHeight;
+        }
+    }
+
+    /**
+     * Returns the number of filled blocks in the given row.
+     */
+    public int getRowWidth(int y) {
+        if (y < 0 | y >= height)
+            return -1;
+        return rowWidth[y];
+    }
+
+    private void updateRowWidth(int start, int end) {
+        for (int y = start; y < end; y++) {
+            int currWidth = 0;
+            for (int x = 0; x < width; x++) {
+                if (grid[x][y] >= 0)
+                    currWidth++;
+            }
+            rowWidth[y] = currWidth;
+        }
+    }
+
+    /**
+     * Returns true if the given block is filled in the board. Blocks outside of
+     * the valid width/height area always return true.
+     */
+    public int getGrid(int x, int y) {
+        if (x >= width || y >= height || x < 0 || y < 0)
+            return 10000;
+        return grid[x][y];
+    }
+
+    public static final int PLACE_OK = 0;
+    public static final int PLACE_ROW_FILLED = 1;
+    public static final int PLACE_OUT_BOUNDS = 2;
+    public static final int PLACE_BAD = 3;
+
+    public int place(Piece piece, int x, int y) {
+        // flag !committed problem
+        if (!committed)
+            throw new RuntimeException("place commit problem");
+
+        int ret = PLACE_OK;
+        for (int i = 0; i < width; i++) {
+            System.arraycopy(grid[i], 0, b_grid[i], 0, grid[i].length);
+        }
+        System.arraycopy(rowWidth, 0, b_rowWidth, 0, rowWidth.length);
+        System.arraycopy(columnHeight, 0, b_columnHeight, 0, columnHeight.length);
+
+        if (x < 0 || y < 0 || x + piece.getWidth() > width || y + piece.getHeight() > height) {
+            committed = false;
+            return PLACE_OUT_BOUNDS;
+        } else {
+            for (Vector2d point : piece.getBody()) {
+                if (grid[point.getX() + x][point.getY() + y] >= 0) {
+                    ret = PLACE_BAD;
+                    break;
+                }
+            }
+        }
+
+        updateGrid(piece, x, y);
+
+        if (ret == PLACE_OK) {
+            for (int i = y; i < y + piece.getHeight(); i++) {
+                if (rowWidth[i] == width)
+                    ret = PLACE_ROW_FILLED;
+            }
+        }
+        committed = false;
+        return ret;
+    }
+
+    private void updateGrid(Piece piece, int x, int y) {
+        for (Vector2d point : piece.getBody()) {
+            grid[point.getX() + x][point.getY() + y] = piece.getType();
+        }
+        updateRowWidth(y, y + piece.getHeight());
+        updateColumnHeight(x, x + piece.getWidth());
+        if (y + piece.getHeight() > maxHeight) {
+            maxHeight = y + piece.getHeight();
+        }
+    }
 
 
     /**
@@ -122,7 +227,44 @@ public class Board {
     public int getBlock(int x, int y) {
         if (x >= width || y >= height || x < 0 || y < 0)
             return -1;
-        return grid[x][y]; // YOUR CODE HERE
+        return grid[x][y];
+    }
+
+    /**
+     * Deletes rows that are filled all the way across, moving things above
+     * down. Returns the number of rows cleared.
+     */
+    public int clearRows() {
+        int rowsCleared = 0;
+
+        for (int y = 0; y < maxHeight; y++) {
+            boolean clear = true;
+            for (int x = 0; x < width; x++) {
+                if (grid[x][y] < 0) {
+                    clear = false;
+                }
+            }
+            if (clear) {
+                rowsCleared++;
+                for (int j = y; j < maxHeight - 1; j++) {
+                    for (int x = 0; x < width; x++) {
+                        grid[x][j] = grid[x][j + 1];
+                    }
+                    rowWidth[j] =  rowWidth[j + 1];
+                }
+                for (int x = 0; x < width; x++) {
+                    grid[x][maxHeight - 1] = -1;
+                    rowWidth[maxHeight - 1] = 0;
+                }
+                y--;
+                maxHeight--;
+            }
+        }
+        updateColumnHeight(0, width);
+        sanityCheck();
+        committed = false;
+
+        return rowsCleared;
     }
 
 
