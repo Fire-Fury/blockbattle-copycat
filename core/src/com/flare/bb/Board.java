@@ -267,6 +267,42 @@ public class Board {
         return rowsCleared;
     }
 
+    /**
+     * Reverts the board to its state before up to one place and one
+     * clearRows(); If the conditions for undo() are not met, such as calling
+     * undo() twice in a row, then the second undo() does nothing. See the
+     * overview docs.
+     */
+    public void undo() {
+        int[][] tempGrid;
+        tempGrid = b_grid;
+        b_grid = grid;
+        grid = tempGrid;
+
+        int[] tempRowWidth;
+        tempRowWidth = b_rowWidth;
+        b_rowWidth = rowWidth;
+        rowWidth = tempRowWidth;
+
+        int[] tempColumnHeight;
+        tempColumnHeight = b_columnHeight;
+        b_columnHeight = columnHeight;
+        columnHeight = tempColumnHeight;
+
+        updateMaxHeight();
+
+        sanityCheck();
+        commit();
+    }
+
+    /**
+     * Puts the board in the committed state.
+     */
+    public void commit() {
+        committed = true;
+    }
+
+
 
 
     /**
@@ -287,5 +323,27 @@ public class Board {
             System.out.println(this);
             System.out.println("Width:" + width + " Height:" + height + " MaxHeight:" + maxHeight);
         }
+    }
+
+    /*
+     * Renders the board state as a big String, suitable for printing. This is
+     * the sort of print-obj-state utility that can help see complex state
+     * change over time. (provided debugging utility)
+     */
+    public String toString() {
+        StringBuilder buff = new StringBuilder();
+        for (int y = height - 1; y >= 0; y--) {
+            buff.append('|');
+            for (int x = 0; x < width; x++) {
+                if (getGrid(x, y) >= 0)
+                    buff.append(getGrid(x, y));
+                else
+                    buff.append(' ');
+            }
+            buff.append("|\n");
+        }
+        for (int x = 0; x < width + 2; x++)
+            buff.append('-');
+        return (buff.toString());
     }
 }
