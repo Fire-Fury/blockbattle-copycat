@@ -1,12 +1,10 @@
 package com.flare.bb;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.flare.bb.Screens.TitleScreen;
 
 public class BlockBattle extends Game {
 	public SpriteBatch batch;
@@ -31,6 +29,8 @@ public class BlockBattle extends Game {
 	@Override
 	public void dispose () {
 		batch.dispose();
+		shapeRenderer.dispose();
+		font.dispose();
 	}
 
 	@Override

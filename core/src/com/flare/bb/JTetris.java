@@ -2,6 +2,9 @@ package com.flare.bb;
 
 // JTetris.java
 
+import com.flare.bb.DataStructures.Board;
+import com.flare.bb.DataStructures.Piece;
+
 import java.awt.*;
 import javax.swing.*;
 

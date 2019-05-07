@@ -2,7 +2,8 @@ package com.flare.bb;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.TimeUtils;
+import com.flare.bb.DataStructures.Board;
+import com.flare.bb.DataStructures.Piece;
 
 public class TetrisSim {
     private static final Color[] PIECE_COLORS = {Color.CYAN, Color.ORANGE, Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.PURPLE};

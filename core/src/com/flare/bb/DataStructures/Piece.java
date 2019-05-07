@@ -1,4 +1,4 @@
-package com.flare.bb;
+package com.flare.bb.DataStructures;
 
 import com.flare.bb.Math.Vector2d;
 
