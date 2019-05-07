@@ -32,7 +32,7 @@ public class TitleScreen extends FancyScreen {
 
     @Override
     public void show(){
-        Gdx.input.setInputProcessor(new InputAdapter() {
+        InputAdapter ia = new InputAdapter(){
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
@@ -40,7 +40,9 @@ public class TitleScreen extends FancyScreen {
                 }
                 return true;
             }
-        });
+        };
+
+        Gdx.input.setInputProcessor(ia);
     }
 
     @Override

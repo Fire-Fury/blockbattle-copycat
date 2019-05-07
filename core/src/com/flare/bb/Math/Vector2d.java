@@ -13,6 +13,10 @@ public class Vector2d {
         this(p.getX(), p.getY());
     }
 
+    public Vector2d(){
+        this(0, 0);
+    }
+
     public int getX() {
         return x;
     }
