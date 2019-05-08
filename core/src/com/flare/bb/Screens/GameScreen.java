@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.flare.bb.BlockBattle;
+import com.flare.bb.InputHandling.BetterInputProcessor;
 
 public class GameScreen extends FancyScreen {
 
@@ -25,6 +26,8 @@ public class GameScreen extends FancyScreen {
 
     @Override
     public void update() {
+        if(((BetterInputProcessor)(Gdx.input.getInputProcessor())).touchPoint.equals() )
+
         circleX += xSpeed;
         circleY += ySpeed;
 

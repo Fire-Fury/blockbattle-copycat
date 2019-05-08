@@ -3,6 +3,7 @@ package com.flare.bb.Screens;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.flare.bb.BlockBattle;
+import com.flare.bb.InputHandling.BetterInputProcessor;
 import jdk.nashorn.internal.ir.Block;
 
 public class TitleScreen extends FancyScreen {
@@ -27,21 +28,14 @@ public class TitleScreen extends FancyScreen {
 
     @Override
     public void update() {
-
+        if(((BetterInputProcessor) (Gdx.input.getInputProcessor())).keys[Input.Keys.SPACE]){
+            game.setScreen(new GameScreen(game));
+        }
     }
 
     @Override
     public void show(){
-        InputAdapter ia = new InputAdapter(){
-            @Override
-            public boolean keyDown(int keyCode) {
-                if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new GameScreen(game));
-                }
-                return true;
-            }
-        };
-
+        BetterInputProcessor ia = new BetterInputProcessor();
         Gdx.input.setInputProcessor(ia);
     }
 

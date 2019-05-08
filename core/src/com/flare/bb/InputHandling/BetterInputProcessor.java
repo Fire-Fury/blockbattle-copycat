@@ -7,7 +7,7 @@ import com.flare.bb.Math.Vector2d;
 public class BetterInputProcessor implements InputProcessor {
 
     public boolean[] keys;
-    Vector2d touchPoint;
+    public Vector2d touchPoint;
 
     public BetterInputProcessor(){
         keys = new boolean[65535]; //length is the maximum number an unsigned short can represent
@@ -42,10 +42,8 @@ public class BetterInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (/*Need to put something here*/) {
-            touchPoint.setX(Gdx.input.getX());
-            touchPoint.setY(Gdx.input.getY());
-        }
+        touchPoint.setX(-1);
+        touchPoint.setY(-1);
         return true;
     }
 
