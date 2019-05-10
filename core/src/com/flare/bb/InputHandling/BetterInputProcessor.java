@@ -8,21 +8,32 @@ public class BetterInputProcessor implements InputProcessor {
 
     public boolean[] keys;
     public Vector2d touchPoint;
+    public int lastKey;
 
     public BetterInputProcessor(){
         keys = new boolean[65535]; //length is the maximum number an unsigned short can represent
         touchPoint = new Vector2d(-1, -1);
+        lastKey = -1;
+    }
+
+    public boolean justPressed(int keycode){
+        if(lastKey == -1 || lastKey != keycode){
+            return keys[keycode];
+        }
+        return false;
     }
 
     @Override
     public boolean keyDown(int keycode) {
         keys[keycode] = true;
-        return true;
+        lastKey = keycode;
+        return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
         keys[keycode] = false;
+        lastKey = -1;
         return true;
     }
 

@@ -31,6 +31,9 @@ public class TitleScreen extends FancyScreen {
         if(((BetterInputProcessor) (Gdx.input.getInputProcessor())).keys[Input.Keys.SPACE]){
             game.setScreen(new GameScreen(game));
         }
+        if(((BetterInputProcessor) (Gdx.input.getInputProcessor())).justPressed(Input.Keys.A)){
+            System.out.println("A");
+        }
     }
 
     @Override

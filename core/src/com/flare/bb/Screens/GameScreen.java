@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.flare.bb.BlockBattle;
 import com.flare.bb.InputHandling.BetterInputProcessor;
+import com.flare.bb.Math.Vector2d;
 
 public class GameScreen extends FancyScreen {
 
@@ -26,7 +27,18 @@ public class GameScreen extends FancyScreen {
 
     @Override
     public void update() {
-        if(((BetterInputProcessor)(Gdx.input.getInputProcessor())).touchPoint.equals() )
+        //Try to calculate the distance between the touched point and the circle. check if it is less than R
+        if(!(((BetterInputProcessor) (Gdx.input.getInputProcessor())).touchPoint.equals(new Vector2d(-1, -1)))) {
+            System.out.printf("Touched at: (%d, %d)\n",
+                    ((BetterInputProcessor) (Gdx.input.getInputProcessor())).touchPoint.getX(),
+                    ((BetterInputProcessor) (Gdx.input.getInputProcessor())).touchPoint.getY());
+
+            int renderY = Gdx.graphics.getHeight() - ((BetterInputProcessor) (Gdx.input.getInputProcessor())).touchPoint.getY();
+            if (Vector2.dst(circleX, circleY,
+                    ((BetterInputProcessor) (Gdx.input.getInputProcessor())).touchPoint.getX(), renderY) < circleRadius) {
+                game.setScreen(new EndScreen(game));
+            }
+        }
 
         circleX += xSpeed;
         circleY += ySpeed;
@@ -54,16 +66,18 @@ public class GameScreen extends FancyScreen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(new InputAdapter() {
-            @Override
-            public boolean touchDown(int x, int y, int pointer, int button) {
-                int renderY = Gdx.graphics.getHeight() - y;
-                if (Vector2.dst(circleX, circleY, x, renderY) < circleRadius) {
-                    game.setScreen(new EndScreen(game));
-                }
-                return true;
-            }
-        });
+        BetterInputProcessor ia = new BetterInputProcessor();
+        Gdx.input.setInputProcessor(ia);
+//        Gdx.input.setInputProcessor(new InputAdapter() {
+//            @Override
+//            public boolean touchDown(int x, int y, int pointer, int button) {
+//                int renderY = Gdx.graphics.getHeight() - y;
+//                if (Vector2.dst(circleX, circleY, x, renderY) < circleRadius) {
+//                    game.setScreen(new EndScreen(game));
+//                }
+//                return true;
+//            }
+//        });
     }
 
     @Override
