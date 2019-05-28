@@ -37,7 +37,7 @@ public class Board {
         this.height = height;
         rowWidth = new int[height];
         b_rowWidth = new int[height];
-        b_columnHeight = new int[width];
+        columnHeight = new int[width];
         b_columnHeight = new int[width];
         grid = new int[width][height];
         b_grid = new int[width][height];

@@ -3,12 +3,11 @@ package com.flare.bb.Screens;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.flare.bb.BlockBattle;
-import com.flare.bb.InputHandling.BetterInputProcessor;
-import jdk.nashorn.internal.ir.Block;
+import com.flare.bb.InputHandling.TitleScreenInputProcessor;
 
 public class TitleScreen extends FancyScreen {
 
-    BlockBattle game;
+    protected BlockBattle game;
 
     public TitleScreen(BlockBattle game) {
         this.game = game;
@@ -28,17 +27,12 @@ public class TitleScreen extends FancyScreen {
 
     @Override
     public void update() {
-        if(((BetterInputProcessor) (Gdx.input.getInputProcessor())).keys[Input.Keys.SPACE]){
-            game.setScreen(new GameScreen(game));
-        }
-        if(((BetterInputProcessor) (Gdx.input.getInputProcessor())).justPressed(Input.Keys.A)){
-            System.out.println("A");
-        }
+
     }
 
     @Override
     public void show(){
-        BetterInputProcessor ia = new BetterInputProcessor();
+        TitleScreenInputProcessor ia = new TitleScreenInputProcessor(game);
         Gdx.input.setInputProcessor(ia);
     }
 

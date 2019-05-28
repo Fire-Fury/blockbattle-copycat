@@ -1,12 +1,9 @@
 package com.flare.bb.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.flare.bb.BlockBattle;
-import com.flare.bb.InputHandling.BetterInputProcessor;
+import com.flare.bb.InputHandling.EndScreenInputProcessor;
 
 public class EndScreen extends FancyScreen {
 
@@ -18,9 +15,6 @@ public class EndScreen extends FancyScreen {
 
     @Override
     public void update(){
-        if(((BetterInputProcessor) (Gdx.input.getInputProcessor())).keys[Input.Keys.ENTER]){
-            game.setScreen(new TitleScreen(game));
-        }
 
     }
 
@@ -37,7 +31,7 @@ public class EndScreen extends FancyScreen {
 
     @Override
     public void show() {
-        BetterInputProcessor ia = new BetterInputProcessor();
+        EndScreenInputProcessor ia = new EndScreenInputProcessor(game);
         Gdx.input.setInputProcessor(ia);
     }
 

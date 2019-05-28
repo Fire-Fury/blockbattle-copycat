@@ -1,5 +1,6 @@
 package com.flare.bb.DataStructures;
 
+import com.badlogic.gdx.graphics.Color;
 import com.flare.bb.Math.Vector2d;
 
 import java.util.ArrayList;
@@ -88,6 +89,7 @@ public class Piece {
         return piece;
     }
 
+    //Reflect over y = x
     public Vector2d[] flipDiagonal(Vector2d[] points){
         Vector2d[] arr = points;
         for(int i = 0; i < arr.length; i++){
@@ -96,10 +98,11 @@ public class Piece {
         return arr;
     }
 
+    //Reflect over Y Axis and displace x appropriately.
     public Vector2d[] flipVertical(Vector2d[] points, int height){
         Vector2d[] arr = points;
         for(int i = 0; i < arr.length; i++){
-            arr[i] = new Vector2d(points[i].getX(), height-points[i].getY()-1);
+            arr[i] = new Vector2d(width - points[i].getX() - 1, points[i].getY());
         }
         return arr;
     }
@@ -157,6 +160,8 @@ public class Piece {
     public static final int S2	  = 4;
     public static final int SQUARE	= 5;
     public static final int PYRAMID = 6;
+
+    public static final Color[] PIECE_COLORS = {Color.CYAN, Color.ORANGE, Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.PURPLE};
 
     public static Piece[] getPieces() {
         // lazy evaluation -- create static array if needed
