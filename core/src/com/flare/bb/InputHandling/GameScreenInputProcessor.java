@@ -31,6 +31,9 @@ public class GameScreenInputProcessor implements InputProcessor {
             gameScreen.modifyCurrentCoordinates(0, -1);
             gameScreen.setDeltaTime(0);
         }
+        else if(keycode == Input.Keys.SPACE){
+
+        }
 
         return false;
     }

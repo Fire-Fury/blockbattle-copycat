@@ -71,9 +71,10 @@ public class GameScreen extends FancyScreen {
         gameOn = true;
 
         if (TEST_MODE)
-            random = new Random(123469); // same seq every time
+            random = new Random(12346); // same seq every time
             // 0 for Square
             // 12346 for Pyramid
+            //123469 for L1
         else
             random = new Random(); // diff seq each game
 
