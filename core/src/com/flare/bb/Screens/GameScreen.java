@@ -187,7 +187,9 @@ public class GameScreen extends FancyScreen {
     }
 
     public void modifyCurrentCoordinates(int dx, int dy){
-        currentX += dx;
+        if(currentX + dx >= 0 && currentX + dx <= board.getWidth()-currentPiece.getWidth())
+            currentX += dx;
+
         currentY += dy;
     }
 
